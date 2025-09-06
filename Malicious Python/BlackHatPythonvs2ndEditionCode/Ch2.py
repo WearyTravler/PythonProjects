@@ -1,12 +1,18 @@
 
+# Modules and their functions...
+from socket import socket, AF_INET, SOCK_STREAM, SOCK_DGRAM
 
-import socket 
 
+
+
+
+# TCP CLIENT
+#-----------------------------------------------------------------
 target_host = "www.google.com"
 target_port = 80
 
 # socket obj
-client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client = socket(AF_INET, SOCK_STREAM)
 
 ## AF_INET = using ipv4 addressing or hostnaming
 ## SOCK_STREAM = indicates a TCP client
@@ -24,3 +30,23 @@ client.send("GET / HTTP/1.1\r\nHost: google.com\r\n\r\n")
 response = client.recv(4096)
 
 print(response)
+#-----------------------------------------------------------------
+
+
+
+# UDP ClIENT
+#-----------------------------------------------------------------
+target_host = "127.0.0.1"
+target_port = 80
+
+# sock obj
+client = socket(AF_INET, SOCK_DGRAM) # This time using DGRAM for UDP, a connectionless protocol
+
+# send data
+client.sendto("AAABBBCCC",(target_host, target_port))
+
+# receive some data
+data, addr = client.recvfrom(4096)
+
+print(data)
+#-----------------------------------------------------------------
