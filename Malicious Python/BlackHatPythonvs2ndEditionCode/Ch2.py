@@ -31,7 +31,7 @@ def tcp_client(target_host, target_port):
 # receive data
   response = client.recv(4096)
 
-  return response
+  print(response)
 #-----------------------------------------------------------------
 
 
@@ -59,7 +59,7 @@ def udp_client(target_host, target_port):
 # receive some data
   data, addr = client.recvfrom(4096)
 
-  return data
+  print(data)
 
 
 #-----------------------------------------------------------------
