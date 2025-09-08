@@ -73,11 +73,11 @@ def server_spawn():
   bind_port = input("Which port would you like to use: ")
   server = socket(AF_INET, SOCK_STREAM)
 
-  server.bind((bind_ip, bind_port))
+  server.bind((bind_ip, int(bind_port)))
 
   server.listen(5)
 
-  print("[*] Listening on %s:%d" %(bind_ip, bind_port))
+  print("[*] Listening on %s:%d" %(bind_ip, int(bind_port)))
 
   # client-handling thread
   def handle_client(client_socket):
@@ -88,7 +88,7 @@ def server_spawn():
     print("[*] Received: %s" % request)
 
     #send back a packet
-    client_socket.send("ACK!")
+    client_socket.send(b"ACK!")
 
     client_socket.close()
 
@@ -111,11 +111,13 @@ def server_spawn():
 def main():
   print("Welcome to the simple TCP/UDP/Server!")
   choice = input("Would you like a TCP/UDP client or possibly spawn a local server? [T/U/S]: ")
-  target_host = input("Give me the target: ")
-  target_port = input("Give me the port: ")
   if choice == "T":
+    target_host = input("Give me the target: ")
+    target_port = input("Give me the port: ")
     tcp_client(target_host, int(target_port))
   elif choice == "U":
+    target_host = input("Give me the target: ")
+    target_port = input("Give me the port: ")
     udp_client(target_host, int(target_port))
   elif choice == "S":
     server_spawn()
