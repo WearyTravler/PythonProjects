@@ -63,10 +63,12 @@ def udp_client(target_host, target_port):
 
 
 #-----------------------------------------------------------------
-
-
 # TCP SERVER
 #-----------------------------------------------------------------
+
+import threading
+def server_spawn():
+  pass
 
 
 
@@ -78,11 +80,13 @@ def main():
   print("Welcome to the simple TCP/UDP/Server!")
   target_host = input("Give me the target: ")
   target_port = input("Give me the port: ")
-  tcp_or_udp = input("Would you like a TCP/UDP client? [T/U]: ")
-  if tcp_or_udp == "T":
+  choice = input("Would you like a TCP/UDP client or possibly spawn a local server? [T/U/S]: ")
+  if choice == "T":
     tcp_client(target_host, int(target_port))
-  elif tcp_or_udp == "U":
+  elif choice == "U":
     udp_client(target_host, int(target_port))
+  elif choice == "S":
+    server_spawn()
   else:
     return "Sorry that's not a valid input..."
 
