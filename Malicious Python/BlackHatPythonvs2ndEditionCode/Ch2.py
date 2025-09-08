@@ -66,9 +66,41 @@ def udp_client(target_host, target_port):
 # TCP SERVER
 #-----------------------------------------------------------------
 
-import threading
+import threading, errno
+
 def server_spawn():
-  pass
+  bind_ip = "0.0.0.0"
+  bind_port = input("Which port would you like to use: ")
+  server = socket(AF_INET, SOCK_STREAM)
+
+  server.bind((bind_ip, bind_port))
+
+  server.listen(5)
+
+  print("[*] Listening on %s:%d" %(bind_ip, bind_port))
+
+  # client-handling thread
+  def handle_client(client_socket):
+
+    # print out what the client sends
+    request = client_socket.recv(1024)
+
+    print("[*] Received: %s" % request)
+
+    #send back a packet
+    client_socket.send("ACK!")
+
+    client_socket.close()
+
+  while True:
+    client,addr = server.accept()
+    print("[*] Accepted connection from: %s:%d " % (addr[0], addr[1]))
+
+    # spin up our client thread to handle incoming data
+    client_handler = threading.Thread(target=handle_client, args=(client,))
+    client_handler.start()
+
+
 
 
 
@@ -78,9 +110,9 @@ def server_spawn():
 # main
 def main():
   print("Welcome to the simple TCP/UDP/Server!")
+  choice = input("Would you like a TCP/UDP client or possibly spawn a local server? [T/U/S]: ")
   target_host = input("Give me the target: ")
   target_port = input("Give me the port: ")
-  choice = input("Would you like a TCP/UDP client or possibly spawn a local server? [T/U/S]: ")
   if choice == "T":
     tcp_client(target_host, int(target_port))
   elif choice == "U":
